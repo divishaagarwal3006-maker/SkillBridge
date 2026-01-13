@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SkillBridge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>SkillBridge – Micro Internships</h1>
+
+<h3>Available Tasks</h3>
+<ul id="tasks"></ul>
+
+<script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+h1 {
+  color: #2c3e50;
+}
+
+li {
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}
+const tasks = [
+  { company: "Google", skill: "Design", task: "Logo Design" },
+  { company: "StartupX", skill: "Excel", task: "Data Analysis" },
+  { company: "MediaCo", skill: "Writing", task: "Content Writing" }
+];
+
+const list = document.getElementById("tasks");
+
+tasks.forEach(t => {
+  const li = document.createElement("li");
+  li.innerText = ${t.company} - ${t.task} (${t.skill});
+  list.appendChild(li);
+});
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[20];
+    char skill[20];
+};
+
+struct Task {
+    char company[20];
+    char requiredSkill[20];
+};
+
+int main() {
+    struct Student s = {"Shraddha", "Design"};
+    struct Task t = {"StartupX", "Design"};
+
+    if(strcmp(s.skill, t.requiredSkill) == 0) {
+        printf("Matched! %s can work for %s\n", s.name, t.company);
+    } else {
+        printf("No Match Found\n");
+    }
+
+    return 0;
+}

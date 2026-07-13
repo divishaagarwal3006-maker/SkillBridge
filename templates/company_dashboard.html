@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Your dashboard — SkillBridge{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <div class="dash-head">
+      <div>
+        <h1>{{ company.name }}</h1>
+        <p class="dash-sub">{{ tasks|length }} task{{ '' if tasks|length == 1 else 's' }} posted</p>
+      </div>
+      <a href="{{ url_for('post_task') }}" class="btn btn-primary">Post a new task</a>
+    </div>
+
+    {% if not tasks %}
+      <div class="empty-state">
+        <p>You haven't posted any tasks yet. <a href="{{ url_for('post_task') }}">Post your first one</a>.</p>
+      </div>
+    {% else %}
+      {% for task in tasks %}
+        <div class="task-manage-card">
+          <div class="task-manage-head">
+            <div>
+              <h2>{{ task.title }}</h2>
+              <span class="task-skill-tag">{{ task.skill_required }}</span>
+              <span class="status-pill status-{{ task.status }}">{{ task.status.replace('_', ' ') }}</span>
+            </div>
+          </div>
+
+          {% if task.applications %}
+            <ul class="applicant-list">
+              {% for app in task.applications %}
+                <li class="applicant-item">
+                  <div>
+                    <strong>{{ app.student.name }}</strong>
+                    <span class="hint">{{ app.student.skill_list|join(', ') }}</span>
+                  </div>
+
+                  {% if app.status == 'pending' %}
+                    <form method="POST" action="{{ url_for('application_decision', app_id=app.id) }}" class="inline-form">
+                      <button type="submit" name="decision" value="accepted" class="btn btn-primary btn-sm">Accept</button>
+                      <button type="submit" name="decision" value="rejected" class="btn btn-ghost btn-sm">Reject</button>
+                    </form>
+                  {% elif app.status == 'accepted' %}
+                    <form method="POST" action="{{ url_for('rate_application', app_id=app.id) }}" class="inline-form">
+                      <select name="rating" required>
+                        <option value="">Rate work…</option>
+                        <option value="5">5 — Excellent</option>
+                        <option value="4">4 — Good</option>
+                        <option value="3">3 — Okay</option>
+                        <option value="2">2 — Below expectations</option>
+                        <option value="1">1 — Poor</option>
+                      </select>
+                      <button type="submit" class="btn btn-secondary btn-sm">Submit rating</button>
+                    </form>
+                  {% else %}
+                    <span class="status-pill status-{{ app.status }}">
+                      {% if app.status == 'rated' %}{{ app.rating_given }}★ rated{% else %}{{ app.status }}{% endif %}
+                    </span>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="hint">No applicants yet.</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

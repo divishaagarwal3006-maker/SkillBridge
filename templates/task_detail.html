@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ task.title }} — SkillBridge{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="wrap wrap-narrow">
+    <a href="{{ url_for('tasks') }}" class="link-back">← Back to tasks</a>
+
+    <div class="detail-card">
+      <span class="task-skill-tag">{{ task.skill_required }}</span>
+      <h1>{{ task.title }}</h1>
+      <p class="detail-company">Posted by {{ task.company.name }}</p>
+
+      <div class="detail-meta">
+        <div>
+          <span class="meta-label">Payment</span>
+          <span class="meta-value">{% if task.payment > 0 %}₹{{ task.payment }}{% else %}Unpaid — for experience & certificate{% endif %}</span>
+        </div>
+        <div>
+          <span class="meta-label">Status</span>
+          <span class="meta-value status-{{ task.status }}">{{ task.status.replace('_', ' ') }}</span>
+        </div>
+      </div>
+
+      <h2 class="detail-subhead">Description</h2>
+      <p class="detail-description">{{ task.description }}</p>
+
+      {% if current_student %}
+        {% if already_applied %}
+          <p class="already-applied">✓ You've already applied to this task.</p>
+        {% elif task.status == 'open' %}
+          <form method="POST" action="{{ url_for('apply_task', task_id=task.id) }}">
+            <button type="submit" class="btn btn-primary">Apply for this task</button>
+          </form>
+        {% else %}
+          <p class="already-applied">This task is no longer open.</p>
+        {% endif %}
+      {% elif current_company %}
+        <p class="hint">You're logged in as a company — switch to a student account to apply.</p>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Log in to apply</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

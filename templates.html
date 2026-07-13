@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}SkillBridge{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="{{ url_for('home') }}" class="brand">
+      <span class="brand-mark">SB</span>
+      <span class="brand-name">SkillBridge</span>
+    </a>
+
+    <nav class="main-nav">
+      <a href="{{ url_for('tasks') }}">Browse tasks</a>
+      {% if current_company %}
+        <a href="{{ url_for('post_task') }}">Post a task</a>
+      {% endif %}
+
+      {% if current_student %}
+        <a href="{{ url_for('student_dashboard') }}">Dashboard</a>
+        <span class="nav-user">Hi, {{ current_student.name.split(' ')[0] }}</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-sm">Log out</a>
+      {% elif current_company %}
+        <a href="{{ url_for('company_dashboard') }}">Dashboard</a>
+        <span class="nav-user">Hi, {{ current_company.name }}</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-sm">Log out</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Log in</a>
+        <a href="{{ url_for('student_signup') }}" class="btn btn-primary btn-sm">Get started</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="wrap flash-wrap">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <span class="brand-mark small">SB</span>
+      <span>SkillBridge — bridging the education-industry gap.</span>
+    </div>
+    <div class="footer-links">
+      <a href="{{ url_for('tasks') }}">Browse tasks</a>
+      <a href="{{ url_for('student_signup') }}">Join as student</a>
+      <a href="{{ url_for('company_signup') }}">Join as company</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}SkillBridge — Real tasks. Real proof. Real start.{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">For students with skills but no track record</span>
+      <h1>Your degree proves you studied.<br>SkillBridge proves you can <em>do</em>.</h1>
+      <p class="hero-sub">
+        Companies post small real tasks — logo design, data entry, content writing.
+        Students complete them, earn certificates and ratings, and walk away with
+        actual proof of skill instead of another blank resume line.
+      </p>
+      <div class="hero-actions">
+        <a href="{{ url_for('student_signup') }}" class="btn btn-primary">Find your first task</a>
+        <a href="{{ url_for('company_signup') }}" class="btn btn-secondary">Post a task instead</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-number">{{ open_tasks_count }}</span>
+        <span class="stat-label">open tasks right now</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ student_count }}</span>
+        <span class="stat-label">students building proof</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ company_count }}</span>
+        <span class="stat-label">companies hiring in micro-tasks</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">The gap SkillBridge closes</h2>
+    <div class="gap-grid">
+      <div class="gap-card">
+        <span class="gap-icon">🎓</span>
+        <h3>Students</h3>
+        <p>Have a degree, no proof they can apply it. No portfolio, no track record.</p>
+      </div>
+      <div class="gap-card">
+        <span class="gap-icon">🏢</span>
+        <h3>Companies</h3>
+        <p>Have small tasks that don't justify a full hire, and no easy way to find help.</p>
+      </div>
+      <div class="gap-card gap-card-accent">
+        <span class="gap-icon">🌉</span>
+        <h3>SkillBridge</h3>
+        <p>Matches the two by skill, and turns completed work into certificates and ratings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if recent_tasks %}
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head-row">
+      <h2 class="section-title">Freshly posted</h2>
+      <a href="{{ url_for('tasks') }}" class="link-more">See all tasks →</a>
+    </div>
+    <div class="task-grid">
+      {% for task in recent_tasks %}
+        <a href="{{ url_for('task_detail', task_id=task.id) }}" class="task-card">
+          <span class="task-skill-tag">{{ task.skill_required }}</span>
+          <h3>{{ task.title }}</h3>
+          <p>{{ task.description[:90] }}{% if task.description|length > 90 %}…{% endif %}</p>
+          <span class="task-company">{{ task.company.name }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">How it works</h2>
+    <div class="journey-grid">
+      <div class="journey-col">
+        <h3>Student journey</h3>
+        <ol class="journey-steps">
+          <li><span>Sign up</span> with your skills</li>
+          <li><span>Browse tasks</span> matched to you</li>
+          <li><span>Apply and complete</span> the work</li>
+          <li><span>Earn</span> a certificate and rating</li>
+        </ol>
+      </div>
+      <div class="journey-col">
+        <h3>Company journey</h3>
+        <ol class="journey-steps">
+          <li><span>Register</span> in minutes</li>
+          <li><span>Post a task</span> with clear requirements</li>
+          <li><span>Review applicants</span> and pick a student</li>
+          <li><span>Rate the work</span> once it's done</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

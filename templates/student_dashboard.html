@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Your dashboard — SkillBridge{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <div class="dash-head">
+      <div>
+        <h1>Hi, {{ student.name.split(' ')[0] }}</h1>
+        <p class="dash-sub">{{ student.skill_list|length }} skill{{ '' if student.skill_list|length == 1 else 's' }} listed
+          {% if student.rating_count > 0 %} · {{ student.average_rating }}★ average rating from {{ student.rating_count }} task{{ '' if student.rating_count == 1 else 's' }}{% endif %}
+        </p>
+      </div>
+      <div class="skill-pills">
+        {% for skill in student.skill_list %}<span class="pill">{{ skill }}</span>{% endfor %}
+        {% if not student.skill_list %}<span class="hint">No skills listed yet.</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="dash-col">
+        <h2 class="section-title-sm">Recommended for you</h2>
+        {% if not recommended %}
+          <div class="empty-state small">
+            <p>No matching tasks yet — check back soon, or <a href="{{ url_for('tasks') }}">browse everything</a>.</p>
+          </div>
+        {% else %}
+          <div class="task-grid">
+            {% for task in recommended %}
+              <a href="{{ url_for('task_detail', task_id=task.id) }}" class="task-card task-card-match">
+                <span class="match-badge">Matches your skills</span>
+                <span class="task-skill-tag">{{ task.skill_required }}</span>
+                <h3>{{ task.title }}</h3>
+                <span class="task-company">{{ task.company.name }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="dash-col">
+        <h2 class="section-title-sm">Your applications</h2>
+        {% if not applications %}
+          <div class="empty-state small">
+            <p>You haven't applied to any tasks yet.</p>
+          </div>
+        {% else %}
+          <ul class="app-list">
+            {% for app in applications %}
+              <li class="app-item">
+                <div>
+                  <a href="{{ url_for('task_detail', task_id=app.task.id) }}">{{ app.task.title }}</a>
+                  <span class="app-company">{{ app.task.company.name }}</span>
+                </div>
+                <span class="status-pill status-{{ app.status }}">
+                  {% if app.status == 'rated' %}{{ app.rating_given }}★ rated{% else %}{{ app.status }}{% endif %}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

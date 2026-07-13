@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Log in — SkillBridge{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="wrap auth-wrap">
+    <div class="auth-card">
+      <span class="eyebrow">Welcome back</span>
+      <h1>Log in to SkillBridge</h1>
+
+      <form method="POST" class="form">
+        <div class="role-toggle">
+          <label class="role-option">
+            <input type="radio" name="role" value="student" checked>
+            <span>Student</span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="company">
+            <span>Company</span>
+          </label>
+        </div>
+
+        <label>
+          Email
+          <input type="email" name="email" required placeholder="you@example.com">
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" required placeholder="Your password">
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      </form>
+
+      <p class="auth-switch">
+        New here? <a href="{{ url_for('student_signup') }}">Sign up as a student</a>
+        or <a href="{{ url_for('company_signup') }}">as a company</a>
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

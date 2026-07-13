@@ -6,19 +6,69 @@ small real tasks posted by companies, so students earn proof of skill
 
 **Stack:** Python (Flask) backend · SQLite database · HTML/CSS/JS frontend.
 
-## Frk-navy themed UI matching the original pitch deck
+## Features included
+- Student & company signup/login (separate account types)
+- Companies can post tasks (title, description, required skill, payment)
+- Students browse/filter tasks by skill, with "matches your skills" highlighting
+- Students apply to tasks
+- Companies accept/reject applicants, then rate completed work
+- Student profile auto-tracks average rating from completed tasks
+- Responsive, dark-navy themed UI matching the original pitch deck
 
 ## Setup
 
-1. Install Python (3.9+)
-2. Create a virtual environment:
+1. **Install Python** (3.9+) if you don't have it already.
 
-6. Open http://127.0.0.1:5000
+2. **Create a virtual environment** (recommended):
+```bash
+   python -m venv venv
+   venv\Scripts\activate      # Windows
+   source venv/bin/activate   # Mac/Linux
+```
+
+3. **Install dependencies:**
+```bash
+   pip install -r requirements.txt
+```
+
+4. **(Optional) Seed some demo data:**
+```bash
+   python seed.py
+```
+   This creates 2 demo companies with 4 tasks, and 1 demo student
+   (login: `divisha@example.com` / `password123`).
+
+5. **Run the app:**
+```bash
+   python app.py
+```
+
+6. Open **http://127.0.0.1:5000** in your browser.
+
+## Project structure
+skillbridge/
+├── app.py                  # Flask app: routes, models, matching logic
+├── seed.py                 # Optional demo-data script
+├── requirements.txt
+├── templates/               # Jinja2 HTML templates
+│   ├── base.html
+│   ├── index.html
+│   ├── student_signup.html
+│   ├── company_signup.html
+│   ├── login.html
+│   ├── tasks.html
+│   ├── task_detail.html
+│   ├── post_task.html
+│   ├── student_dashboard.html
+│   └── company_dashboard.html
+└── static/
+└── css/style.css        # All styling
 
 ## How the skill matching works
 A simple exact-match check (case-insensitive) between a student's listed
-skills and a task's required skill. Extendable later for partial matches
-or weighted scoring.
+skills and a task's required skill. This mirrors the "Skill-based task
+matching algorithm" concept, implemented in Python. Extendable later for
+partial matches, synonyms, or weighted scoring.
 
 ## 🚀 Future Improvements
 - In-app chat between student and company

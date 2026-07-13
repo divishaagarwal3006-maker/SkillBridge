@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Post a task — SkillBridge{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="wrap auth-wrap">
+    <div class="auth-card">
+      <span class="eyebrow">New task</span>
+      <h1>Post a task for students</h1>
+      <p class="auth-sub">Be specific — clear requirements attract the right applicants.</p>
+
+      <form method="POST" class="form">
+        <label>
+          Task title
+          <input type="text" name="title" required placeholder="e.g. Design a logo for our app">
+        </label>
+        <label>
+          Description
+          <textarea name="description" rows="5" required placeholder="What needs to be done, and what does a finished submission look like?"></textarea>
+        </label>
+        <label>
+          Skill required
+          <input type="text" name="skill_required" required placeholder="e.g. Logo Design">
+        </label>
+        <label>
+          Payment in ₹ <span class="hint">(0 if unpaid / for-experience)</span>
+          <input type="number" name="payment" min="0" value="0">
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Post task</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

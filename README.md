@@ -45,6 +45,9 @@ small real tasks posted by companies, so students earn proof of skill
 
 6. Open **http://127.0.0.1:5000** in your browser.
 
+   <img width="1885" height="1006" alt="image" src="https://github.com/user-attachments/assets/a32cc0ca-08d2-4c9d-8727-6f668e74b606" />
+
+
 ## Project structure
 skillbridge/
 ├── app.py                  # Flask app: routes, models, matching logic

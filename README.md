@@ -3,6 +3,7 @@
 A working starter version of SkillBridge — a platform matching students with
 small real tasks posted by companies, so students earn proof of skill
 (ratings + certificates) instead of just a degree.
+🔗 **Live demo:** https://skillbridge-4cby.onrender.com
 
 **Stack:** Python (Flask) backend · SQLite database · HTML/CSS/JS frontend.
 

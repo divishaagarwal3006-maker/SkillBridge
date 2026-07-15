@@ -9,6 +9,7 @@ Run locally:
 Then open http://127.0.0.1:5000
 """
 
+import os
 from datetime import datetime
 from functools import wraps
 
@@ -17,7 +18,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "dev-secret-key-change-this-in-production"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-this-in-production")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///skillbridge.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -381,7 +382,13 @@ def rate_application(app_id):
 # Entry point
 # ---------------------------------------------------------------------------
 
+# Create tables at import time too, so this also works when run under
+# gunicorn on Render (gunicorn imports this module instead of running
+# the __main__ block below).
+with app.app_context():
+    db.create_all()
+
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    debug_mode = os.environ.get("FLASK_DEBUG", "true").lower() == "true"
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)
